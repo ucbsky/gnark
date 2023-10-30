@@ -20,7 +20,7 @@ import (
 
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/consensys/gnark/backend/plonk"
-	cs "github.com/consensys/gnark/constraint/bn254"
+	cs "github.com/consensys/gnark/constraint/bls12-377"
 	"github.com/consensys/gnark/frontend/cs/scs"
 	"github.com/consensys/gnark/test"
 
@@ -73,7 +73,7 @@ func main() {
 	var circuit Circuit
 
 	// // building the circuit...
-	ccs, err := frontend.Compile(ecc.BN254.ScalarField(), scs.NewBuilder, &circuit)
+	ccs, err := frontend.Compile(ecc.BLS12_377.ScalarField(), scs.NewBuilder, &circuit)
 	if err != nil {
 		fmt.Println("circuit compilation error")
 	}
@@ -98,12 +98,12 @@ func main() {
 		w.E = 2
 		w.Y = 4
 
-		witnessFull, err := frontend.NewWitness(&w, ecc.BN254.ScalarField())
+		witnessFull, err := frontend.NewWitness(&w, ecc.BLS12_377.ScalarField())
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		witnessPublic, err := frontend.NewWitness(&w, ecc.BN254.ScalarField(), frontend.PublicOnly())
+		witnessPublic, err := frontend.NewWitness(&w, ecc.BLS12_377.ScalarField(), frontend.PublicOnly())
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -139,12 +139,12 @@ func main() {
 		pW.X = 3
 		pW.Y = 4096
 
-		witnessFull, err := frontend.NewWitness(&w, ecc.BN254.ScalarField())
+		witnessFull, err := frontend.NewWitness(&w, ecc.BLS12_377.ScalarField())
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		witnessPublic, err := frontend.NewWitness(&pW, ecc.BN254.ScalarField(), frontend.PublicOnly())
+		witnessPublic, err := frontend.NewWitness(&pW, ecc.BLS12_377.ScalarField(), frontend.PublicOnly())
 		if err != nil {
 			log.Fatal(err)
 		}
