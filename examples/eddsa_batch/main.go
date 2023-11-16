@@ -61,7 +61,7 @@ func (circuit *eddsaCircuit) Define(api frontend.API) error {
 	return eddsa.Verify(curve, circuit.Signature, circuit.Message, circuit.PublicKey, &mimc)
 }
 
-func main() {
+func runtrial(N int, batch int) {
     // instantiate hash function
     hFunc := hash.MIMC_BN254.New()
 
@@ -70,10 +70,10 @@ func main() {
 
     // create a eddsa key pair
     //for i := 0; i < N; i++ {
-    var privateKeys [N]signature.Signer
-    var publicKeys [N]signature.PublicKey
-    var msgs [N]big.Int
-    var signatures [N][]byte
+	var privateKeys []signature.Signer = make([]signature.Signer, N);
+	var publicKeys []signature.PublicKey = make([]signature.PublicKey, N);
+	var msgs []big.Int = make([]big.Int, N);
+	var signatures [][]byte = make([][]byte, N);
     var err error
     snarkField, err := twistededwards.GetSnarkField(tedwards.BN254)
     for i := 0; i<N; i++ {
@@ -141,16 +141,16 @@ func main() {
 	    //return err
     }
     // public key bytes
-    var _publicKeys [N][]byte
+    var _publicKeys [][]byte = make([][]byte, N)
     for i := 0; i < N; i++ {
 	    _publicKeys[i] = publicKeys[i].Bytes()
 	    _publicKeys[i] = _publicKeys[i][:32]
     }
 
     // declare the witness
-    var assignment [N]eddsaCircuit
-    var witness_arr [N]witness.Witness
-    var pubWitness_arr [N]witness.Witness
+    var assignment []eddsaCircuit = make([]eddsaCircuit, N)
+    var witness_arr []witness.Witness = make([]witness.Witness, N)
+    var pubWitness_arr []witness.Witness = make([]witness.Witness, N)
     for n := 0; n < N; n++ {
 	assignment[n].Message = msgs[n]
 
@@ -234,4 +234,20 @@ func run(r1cs constraint.ConstraintSystem, pk groth16.ProvingKey, fullWitness wi
 	}
 	wg.Done()
 	c <- proof
+}
+
+
+func main() {
+	for i := 0; i < 3; i++ {
+		for pn := 0; pn <= 3; pn++ {
+			for pb := 0; pb <= pn; pb++ {
+				n := 1 << pn
+				batch := 1 << pb
+				fmt.Println("TESTING WITH TRIAL = ", i+1)
+				fmt.Println("TESTING WITH N = ", n)
+				fmt.Println("TESTING WITH BATCH = ", batch)
+				runtrial(n, batch)
+			}
+		}
+	}
 }
