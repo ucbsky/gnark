@@ -2,25 +2,28 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math/rand"
 	"math/big"
 	"time"
-	"bytes"
+	//"bytes"
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/std/signature/eddsa"
 	"github.com/consensys/gnark/std/hash/mimc"
 	tedwards "github.com/consensys/gnark-crypto/ecc/twistededwards"
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/backend/groth16"
-	"github.com/consensys/gnark/frontend/cs/r1cs"
+	"github.com/consensys/gnark/backend/plonk"
+	"github.com/consensys/gnark/frontend/cs/scs"
 	"github.com/consensys/gnark-crypto/hash"
 	"github.com/consensys/gnark/std/algebra/native/twistededwards"
 	eddsaCrypto "github.com/consensys/gnark-crypto/signature/eddsa"
 	"github.com/consensys/gnark-crypto/signature"
+	"github.com/consensys/gnark/test"
+	cs "github.com/consensys/gnark/constraint/bn254"
 	//eddsa2 "github.com/consensys/gnark-crypto/ecc/bn254/twistededwards/eddsa"
 )
 
-const N = 1 << 12
+const N = 1 << 1
 
 type eddsaCircuit struct {
 	curveID   tedwards.ID
@@ -117,12 +120,18 @@ func main() {
 
     var circuit eddsaCircuit
     circuit.curveID = tedwards.BN254
-    _r1cs, err := frontend.Compile(ecc.BN254.ScalarField(), r1cs.NewBuilder, &circuit)
+    ccs, err := frontend.Compile(ecc.BN254.ScalarField(), scs.NewBuilder, &circuit)
+    //_r1cs, err := frontend.Compile(ecc.BN254.ScalarField(), r1cs.NewBuilder, &circuit)
     if err != nil {
 	    fmt.Println("error cannot be returned 1")
 	   // return err[0]
     }
-
+    _r1cs := ccs.(*cs.SparseR1CS)
+    srs, err := test.NewKZGSRS(_r1cs)
+    if err != nil {
+	    panic(err)
+    }
+/*
     var buf bytes.Buffer
     _, _ = _r1cs.WriteTo(&buf)
 
@@ -134,7 +143,7 @@ func main() {
 	    fmt.Println("error cannot be returned 2")
 	    //return err
     }
-
+*/
     // declare the witness
     var assignment eddsaCircuit
 
@@ -154,9 +163,9 @@ func main() {
     for i := 0; i < N; i++ {
 	    _publicKeys[i] = publicKeys[i].Bytes()
 	    _publicKeys[i] = _publicKeys[i][:32]
-	    assignment.PublicKey[i].Assign(tedwards.BN254, _publicKeys[i])
+    assignment.PublicKey[i].Assign(tedwards.BN254, _publicKeys[i])
 	    assignment.Signature[i].Assign(tedwards.BN254, signatures[i])
-    }
+   }
 
     // assign public key values
     //assignment.PublicKey = assignment.PublicKey[0].Assign(tedwards.BN254, _publicKeys, N)
@@ -165,24 +174,35 @@ func main() {
     //assignment.Signature.Assign(tedwards.BN254, signatures)
 
     // witness
-    witness, err := frontend.NewWitness(&assignment, ecc.BN254.ScalarField(), frontend.PublicOnly())
-    publicWitness, err := witness.Public()
+    witnessFull, err := frontend.NewWitness(&assignment, ecc.BN254.ScalarField())
+    if err != nil {
+	    log.Fatal(err)
+    }
+    witnessPublic, err := frontend.NewWitness(&assignment, ecc.BN254.ScalarField(), frontend.PublicOnly())
+    //publicWitness, err := witness.Public()
     fmt.Println("Here2!")
 
     //err = test.IsSolved(circuit, witness)
+    pk, vk, err := plonk.Setup(ccs, srs)
+    if err != nil {
+	    log.Fatal(err)
+    }
 
     // generate the proof
     startTime := time.Now()
-    proof, err := groth16.Prove(_r1cs, pk, witness)
+    proof, err := plonk.Prove(ccs, pk, witnessFull)
     //endTime := time.Now()
 
     proveTime := time.Since(startTime)
+    if err != nil {
+	    log.Fatal(err)
+    }
 
     fmt.Printf("Prove time: %v\n", proveTime)
 
     // verify the proof
-    err = groth16.Verify(proof, vk, publicWitness)
+    err = plonk.Verify(proof, vk, witnessPublic)
     if err != nil {
-      //   invalid proof
+	    log.Fatal(err)
     }
 }
