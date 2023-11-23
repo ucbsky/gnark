@@ -23,27 +23,34 @@ import (
 	//eddsa2 "github.com/consensys/gnark-crypto/ecc/bn254/twistededwards/eddsa"
 )
 
-const N = 1 << 1
+//const N = 1 << 1
 
 type eddsaCircuit struct {
 	curveID   tedwards.ID
-	PublicKey [N]eddsa.PublicKey           `gnark:",public"`
-	Signature [N]eddsa.Signature           `gnark:",public"`
-	Message   [N]frontend.Variable         `gnark:",public"`
+	PublicKey []eddsa.PublicKey           `gnark:",public"`
+	Signature []eddsa.Signature           `gnark:",public"`
+	Message   []frontend.Variable         `gnark:",public"`
+}
+
+func initCircuit(N int) eddsaCircuit {
+	return eddsaCircuit{
+		PublicKey: make([]eddsa.PublicKey, N),
+		Signature: make([]eddsa.Signature, N),
+		Message:   make([]frontend.Variable, N),
+	}
 }
 
 func (circuit *eddsaCircuit) Define(api frontend.API) error {
 	curve, err := twistededwards.NewEdCurve(api, circuit.curveID)
 	if err != nil {
-		return err
-	}
+		return err	}
 
 	//mimc, err := mimc.NewMiMC(api)
 	//if err != nil {
 	//	return err
 	//}
 
-	for i := 0; i < N; i++ {
+	for i := 0; i < len(circuit.PublicKey); i++ {
 		mimc, err := mimc.NewMiMC(api)
 		if err != nil {
 			return err
@@ -58,7 +65,7 @@ func (circuit *eddsaCircuit) Define(api frontend.API) error {
 	//return eddsa.Verify(curve, circuit.Signature, circuit.Message, circuit.PublicKey, &mimc)
 }
 
-func main() {
+func runtrial(N int) {
     // instantiate hash function
     hFunc := hash.MIMC_BN254.New()
 
@@ -67,10 +74,10 @@ func main() {
 
     // create a eddsa key pair
     //for i := 0; i < N; i++ {
-    var privateKeys [N]signature.Signer
-    var publicKeys [N]signature.PublicKey
-    var msgs [N]big.Int
-    var signatures [N][]byte
+    var privateKeys []signature.Signer = make([]signature.Signer, N);
+    var publicKeys []signature.PublicKey = make([]signature.PublicKey, N);
+    var msgs []big.Int = make([]big.Int, N);
+    var signatures [][]byte = make([][]byte, N);
     var err error
     snarkField, err := twistededwards.GetSnarkField(tedwards.BN254)
     for i := 0; i<N; i++ {
@@ -118,7 +125,7 @@ func main() {
     }
     */
 
-    var circuit eddsaCircuit
+    var circuit eddsaCircuit = initCircuit(N)
     circuit.curveID = tedwards.BN254
     ccs, err := frontend.Compile(ecc.BN254.ScalarField(), scs.NewBuilder, &circuit)
     //_r1cs, err := frontend.Compile(ecc.BN254.ScalarField(), r1cs.NewBuilder, &circuit)
@@ -145,7 +152,7 @@ func main() {
     }
 */
     // declare the witness
-    var assignment eddsaCircuit
+    var assignment eddsaCircuit = initCircuit(N)
 
     // assign message value
     msgs2 := make([]frontend.Variable, N)
@@ -159,7 +166,7 @@ func main() {
     //assignment.Message = [N]frontend.Variable{msgs[0], msgs[1]}
 
     // public key bytes
-    var _publicKeys [N][]byte
+    var _publicKeys [][]byte = make([][]byte, N)
     for i := 0; i < N; i++ {
 	    _publicKeys[i] = publicKeys[i].Bytes()
 	    _publicKeys[i] = _publicKeys[i][:32]
@@ -183,13 +190,19 @@ func main() {
     fmt.Println("Here2!")
 
     //err = test.IsSolved(circuit, witness)
+    startTime := time.Now()
+    //endTime := time.Now()
+
     pk, vk, err := plonk.Setup(ccs, srs)
+    setupTime := time.Since(startTime)
+
     if err != nil {
 	    log.Fatal(err)
     }
+    fmt.Printf("Setup time: %v\n", setupTime)
 
     // generate the proof
-    startTime := time.Now()
+    startTime = time.Now()
     proof, err := plonk.Prove(ccs, pk, witnessFull)
     //endTime := time.Now()
 
@@ -205,4 +218,14 @@ func main() {
     if err != nil {
 	    log.Fatal(err)
     }
+}
+func main() {
+	for i := 0; i < 1; i++ {
+		for p := 0; p <= 10; p++ {
+			n := 1 << p
+			fmt.Println("TESTING WITH TRIAL = ", i+1)
+			fmt.Println("TESTING WITH N = ", n)
+			runtrial(n)
+		}
+	}
 }
