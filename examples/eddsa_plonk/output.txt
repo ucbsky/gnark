@@ -1,0 +1,132 @@
+TESTING WITH TRIAL =  1
+TESTING WITH N =  1
+[90m04:55:01[0m [32mINF[0m compiling circuit
+[90m04:55:01[0m [32mINF[0m parsed circuit inputs [36mnbPublic=[0m6 [36mnbSecret=[0m0
+[90m04:55:01[0m [32mINF[0m building constraint builder [36mnbConstraints=[0m12203
+Here2!
+[90m04:55:02[0m [33mDBG[0m setup done [36mbackend=[0mplonk [36mcomputeLagrangeCosetPolys=[0m29.755675
+Setup time: 243.416607ms
+[90m04:55:02[0m [33mDBG[0m constraint system solver done [36mnbConstraints=[0m12203 [36mtook=[0m5.349207
+[90m04:55:02[0m [33mDBG[0m prover done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mnbConstraints=[0m12203 [36mtook=[0m284.417726
+Prove time: 284.50216ms
+[90m04:55:02[0m [33mDBG[0m verifier done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mtook=[0m3.19512
+TESTING WITH TRIAL =  1
+TESTING WITH N =  2
+[90m04:55:02[0m [32mINF[0m compiling circuit
+[90m04:55:02[0m [32mINF[0m parsed circuit inputs [36mnbPublic=[0m12 [36mnbSecret=[0m0
+[90m04:55:02[0m [32mINF[0m building constraint builder [36mnbConstraints=[0m24153
+Here2!
+[90m04:55:03[0m [33mDBG[0m setup done [36mbackend=[0mplonk [36mcomputeLagrangeCosetPolys=[0m64.777134
+Setup time: 386.59631ms
+[90m04:55:03[0m [33mDBG[0m constraint system solver done [36mnbConstraints=[0m24153 [36mtook=[0m10.60754
+[90m04:55:03[0m [33mDBG[0m prover done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mnbConstraints=[0m24153 [36mtook=[0m452.762838
+Prove time: 452.85516ms
+[90m04:55:03[0m [33mDBG[0m verifier done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mtook=[0m2.42126
+TESTING WITH TRIAL =  1
+TESTING WITH N =  4
+[90m04:55:03[0m [32mINF[0m compiling circuit
+[90m04:55:03[0m [32mINF[0m parsed circuit inputs [36mnbPublic=[0m24 [36mnbSecret=[0m0
+[90m04:55:03[0m [32mINF[0m building constraint builder [36mnbConstraints=[0m48053
+Here2!
+[90m04:55:05[0m [33mDBG[0m setup done [36mbackend=[0mplonk [36mcomputeLagrangeCosetPolys=[0m132.578752
+Setup time: 707.84411ms
+[90m04:55:05[0m [33mDBG[0m constraint system solver done [36mnbConstraints=[0m48053 [36mtook=[0m20.212885
+[90m04:55:06[0m [33mDBG[0m prover done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mnbConstraints=[0m48053 [36mtook=[0m869.622807
+Prove time: 869.731576ms
+[90m04:55:06[0m [33mDBG[0m verifier done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mtook=[0m2.472168
+TESTING WITH TRIAL =  1
+TESTING WITH N =  8
+[90m04:55:06[0m [32mINF[0m compiling circuit
+[90m04:55:06[0m [32mINF[0m parsed circuit inputs [36mnbPublic=[0m48 [36mnbSecret=[0m0
+[90m04:55:06[0m [32mINF[0m building constraint builder [36mnbConstraints=[0m95853
+Here2!
+[90m04:55:09[0m [33mDBG[0m setup done [36mbackend=[0mplonk [36mcomputeLagrangeCosetPolys=[0m263.50253
+Setup time: 1.341409982s
+[90m04:55:09[0m [33mDBG[0m constraint system solver done [36mnbConstraints=[0m95853 [36mtook=[0m41.589434
+[90m04:55:10[0m [33mDBG[0m prover done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mnbConstraints=[0m95853 [36mtook=[0m1533.731462
+Prove time: 1.533850581s
+[90m04:55:10[0m [33mDBG[0m verifier done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mtook=[0m2.551289
+TESTING WITH TRIAL =  1
+TESTING WITH N =  16
+[90m04:55:10[0m [32mINF[0m compiling circuit
+[90m04:55:10[0m [32mINF[0m parsed circuit inputs [36mnbPublic=[0m96 [36mnbSecret=[0m0
+[90m04:55:11[0m [32mINF[0m building constraint builder [36mnbConstraints=[0m191453
+Here2!
+[90m04:55:16[0m [33mDBG[0m setup done [36mbackend=[0mplonk [36mcomputeLagrangeCosetPolys=[0m575.030338
+Setup time: 2.545885729s
+[90m04:55:17[0m [33mDBG[0m constraint system solver done [36mnbConstraints=[0m191453 [36mtook=[0m86.362876
+[90m04:55:19[0m [33mDBG[0m prover done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mnbConstraints=[0m191453 [36mtook=[0m2901.015942
+Prove time: 2.901128866s
+[90m04:55:19[0m [33mDBG[0m verifier done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mtook=[0m2.763515
+TESTING WITH TRIAL =  1
+TESTING WITH N =  32
+[90m04:55:19[0m [32mINF[0m compiling circuit
+[90m04:55:19[0m [32mINF[0m parsed circuit inputs [36mnbPublic=[0m192 [36mnbSecret=[0m0
+[90m04:55:20[0m [32mINF[0m building constraint builder [36mnbConstraints=[0m382653
+Here2!
+[90m04:55:31[0m [33mDBG[0m setup done [36mbackend=[0mplonk [36mcomputeLagrangeCosetPolys=[0m1116.946496
+Setup time: 4.867688594s
+[90m04:55:31[0m [33mDBG[0m constraint system solver done [36mnbConstraints=[0m382653 [36mtook=[0m139.699195
+[90m04:55:37[0m [33mDBG[0m prover done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mnbConstraints=[0m382653 [36mtook=[0m5562.459245
+Prove time: 5.562578961s
+[90m04:55:37[0m [33mDBG[0m verifier done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mtook=[0m3.106896
+TESTING WITH TRIAL =  1
+TESTING WITH N =  64
+[90m04:55:37[0m [32mINF[0m compiling circuit
+[90m04:55:37[0m [32mINF[0m parsed circuit inputs [36mnbPublic=[0m384 [36mnbSecret=[0m0
+[90m04:55:38[0m [32mINF[0m building constraint builder [36mnbConstraints=[0m765053
+Here2!
+[90m04:56:00[0m [33mDBG[0m setup done [36mbackend=[0mplonk [36mcomputeLagrangeCosetPolys=[0m2437.202137
+Setup time: 9.627053478s
+[90m04:56:01[0m [33mDBG[0m constraint system solver done [36mnbConstraints=[0m765053 [36mtook=[0m270.236104
+[90m04:56:12[0m [33mDBG[0m prover done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mnbConstraints=[0m765053 [36mtook=[0m11308.035632
+Prove time: 11.308268058s
+[90m04:56:12[0m [33mDBG[0m verifier done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mtook=[0m4.264235
+TESTING WITH TRIAL =  1
+TESTING WITH N =  128
+[90m04:56:12[0m [32mINF[0m compiling circuit
+[90m04:56:12[0m [32mINF[0m parsed circuit inputs [36mnbPublic=[0m768 [36mnbSecret=[0m0
+[90m04:56:14[0m [32mINF[0m building constraint builder [36mnbConstraints=[0m1529853
+Here2!
+[90m04:56:58[0m [33mDBG[0m setup done [36mbackend=[0mplonk [36mcomputeLagrangeCosetPolys=[0m4976.597193
+Setup time: 19.079502852s
+[90m04:56:58[0m [33mDBG[0m constraint system solver done [36mnbConstraints=[0m1529853 [36mtook=[0m385.069154
+[90m04:57:19[0m [33mDBG[0m prover done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mnbConstraints=[0m1529853 [36mtook=[0m21337.414111
+Prove time: 21.337606622s
+[90m04:57:19[0m [33mDBG[0m verifier done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mtook=[0m5.452864
+TESTING WITH TRIAL =  1
+TESTING WITH N =  256
+[90m04:57:20[0m [32mINF[0m compiling circuit
+[90m04:57:20[0m [32mINF[0m parsed circuit inputs [36mnbPublic=[0m1536 [36mnbSecret=[0m0
+[90m04:57:24[0m [32mINF[0m building constraint builder [36mnbConstraints=[0m3059453
+Here2!
+[90m04:58:51[0m [33mDBG[0m setup done [36mbackend=[0mplonk [36mcomputeLagrangeCosetPolys=[0m10358.872505
+Setup time: 37.182614446s
+[90m04:58:52[0m [33mDBG[0m constraint system solver done [36mnbConstraints=[0m3059453 [36mtook=[0m646.662101
+[90m04:59:33[0m [33mDBG[0m prover done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mnbConstraints=[0m3059453 [36mtook=[0m42099.244323
+Prove time: 42.099456764s
+[90m04:59:33[0m [33mDBG[0m verifier done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mtook=[0m8.509716
+TESTING WITH TRIAL =  1
+TESTING WITH N =  512
+[90m04:59:35[0m [32mINF[0m compiling circuit
+[90m04:59:35[0m [32mINF[0m parsed circuit inputs [36mnbPublic=[0m3072 [36mnbSecret=[0m0
+[90m04:59:44[0m [32mINF[0m building constraint builder [36mnbConstraints=[0m6118653
+Here2!
+[90m05:02:40[0m [33mDBG[0m setup done [36mbackend=[0mplonk [36mcomputeLagrangeCosetPolys=[0m21191.784227
+Setup time: 1m19.000316621s
+[90m05:02:42[0m [33mDBG[0m constraint system solver done [36mnbConstraints=[0m6118653 [36mtook=[0m1203.028874
+[90m05:04:05[0m [33mDBG[0m prover done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mnbConstraints=[0m6118653 [36mtook=[0m84778.382009
+Prove time: 1m24.778585419s
+[90m05:04:05[0m [33mDBG[0m verifier done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mtook=[0m14.436215
+TESTING WITH TRIAL =  1
+TESTING WITH N =  1024
+[90m05:04:09[0m [32mINF[0m compiling circuit
+[90m05:04:09[0m [32mINF[0m parsed circuit inputs [36mnbPublic=[0m6144 [36mnbSecret=[0m0
+[90m05:04:26[0m [32mINF[0m building constraint builder [36mnbConstraints=[0m12237053
+Here2!
+[90m05:10:19[0m [33mDBG[0m setup done [36mbackend=[0mplonk [36mcomputeLagrangeCosetPolys=[0m44379.725784
+Setup time: 2m37.262866142s
+[90m05:10:21[0m [33mDBG[0m constraint system solver done [36mnbConstraints=[0m12237053 [36mtook=[0m2013.443695
+[90m05:13:05[0m [33mDBG[0m prover done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mnbConstraints=[0m12237053 [36mtook=[0m166258.187052
+Prove time: 2m46.258412339s
+[90m05:13:05[0m [33mDBG[0m verifier done [36mbackend=[0mplonk [36mcurve=[0mbn254 [36mtook=[0m27.046315
