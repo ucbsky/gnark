@@ -24,7 +24,7 @@ import (
 	eddsaCrypto "github.com/consensys/gnark-crypto/signature/eddsa"
 	"github.com/consensys/gnark-crypto/signature"
 	"github.com/consensys/gnark/test"
-	cs "github.com/consensys/gnark/constraint/bn254"
+	cs "github.com/consensys/gnark/constraint/bls12-377"
 	//eddsa2 "github.com/consensys/gnark-crypto/ecc/bn254/twistededwards/eddsa"
 )
 
@@ -66,7 +66,7 @@ func (circuit *eddsaCircuit) Define(api frontend.API) error {
 
 func runtrial(N int, batch int) {
     // instantiate hash function
-    hFunc := hash.MIMC_BN254.New()
+    hFunc := hash.MIMC_BLS12_377.New()
     seed := time.Now().Unix()
     randomness := rand.New(rand.NewSource(seed))
 
@@ -77,9 +77,9 @@ func runtrial(N int, batch int) {
 	var msgs []big.Int = make([]big.Int, N);
 	var signatures [][]byte = make([][]byte, N);
     var err error
-    snarkField, err := twistededwards.GetSnarkField(tedwards.BN254)
+    snarkField, err := twistededwards.GetSnarkField(tedwards.BLS12_377)
     for i := 0; i<N; i++ {
-	    privateKeys[i], err = eddsaCrypto.New(tedwards.BN254, randomness)
+	    privateKeys[i], err = eddsaCrypto.New(tedwards.BLS12_377, randomness)
 	    if err != nil {
 		return
 	    }
@@ -124,8 +124,8 @@ func runtrial(N int, batch int) {
     */
 
     var circuit eddsaCircuit
-    circuit.curveID = tedwards.BN254
-    ccs, err := frontend.Compile(ecc.BN254.ScalarField(), scs.NewBuilder, &circuit)
+    circuit.curveID = tedwards.BLS12_377
+    ccs, err := frontend.Compile(ecc.BLS12_377.ScalarField(), scs.NewBuilder, &circuit)
     if err != nil {
 	    fmt.Println("error cannot be returned 1")
 	   // return err[0]
@@ -164,8 +164,8 @@ func runtrial(N int, batch int) {
     //copy(assignment.Message[:], msgs2)
     //assignment.Message = [N]frontend.Variable{msgs[0], msgs[1]}
 
-    assignment[n].PublicKey.Assign(tedwards.BN254, _publicKeys[n])
-    assignment[n].Signature.Assign(tedwards.BN254, signatures[n])
+    assignment[n].PublicKey.Assign(tedwards.BLS12_377, _publicKeys[n])
+    assignment[n].Signature.Assign(tedwards.BLS12_377, signatures[n])
 
     // assign public key values
     //assignment.PublicKey = assignment.PublicKey[0].Assign(tedwards.BN254, _publicKeys, N)
@@ -174,11 +174,11 @@ func runtrial(N int, batch int) {
     //assignment.Signature.Assign(tedwards.BN254, signatures)
 
     // witness
-    witnessFull_arr[n], err = frontend.NewWitness(&assignment[n], ecc.BN254.ScalarField())
+    witnessFull_arr[n], err = frontend.NewWitness(&assignment[n], ecc.BLS12_377.ScalarField())
     if err != nil {
 	    return
     }
-    witnessPub_arr[n], err = frontend.NewWitness(&assignment[n], ecc.BN254.ScalarField(), frontend.PublicOnly())
+    witnessPub_arr[n], err = frontend.NewWitness(&assignment[n], ecc.BLS12_377.ScalarField(), frontend.PublicOnly())
     if err != nil {
 	    return
     }
@@ -242,9 +242,9 @@ func run(ccs constraint.ConstraintSystem, pk plonk.ProvingKey, fullWitness witne
 
 
 func main() {
-	for i := 0; i < 10; i++ {
-		for pb := 5; pb <= 5; pb++ {
-			for pn := pb; pn <= 15; pn++ {
+	for i := 0; i < 3; i++ {
+		for pb := 0; pb <= 0; pb++ {
+			for pn := pb; pn <= 10; pn++ {
 				n := 1 << pn
 				batch := 1 << pb
 				//fmt.Println("TESTING WITH TRIAL = ", i+1)
