@@ -19,7 +19,7 @@ import (
 	eddsaCrypto "github.com/consensys/gnark-crypto/signature/eddsa"
 	"github.com/consensys/gnark-crypto/signature"
 	"github.com/consensys/gnark/test"
-	cs "github.com/consensys/gnark/constraint/bn254"
+	cs "github.com/consensys/gnark/constraint/bls12-377"
 	//eddsa2 "github.com/consensys/gnark-crypto/ecc/bn254/twistededwards/eddsa"
 )
 
@@ -67,7 +67,7 @@ func (circuit *eddsaCircuit) Define(api frontend.API) error {
 
 func runtrial(N int) {
     // instantiate hash function
-    hFunc := hash.MIMC_BN254.New()
+    hFunc := hash.MIMC_BLS12_377.New()
 
     seed := time.Now().Unix()
     randomness := rand.New(rand.NewSource(seed))
@@ -79,9 +79,9 @@ func runtrial(N int) {
     var msgs []big.Int = make([]big.Int, N);
     var signatures [][]byte = make([][]byte, N);
     var err error
-    snarkField, err := twistededwards.GetSnarkField(tedwards.BN254)
+    snarkField, err := twistededwards.GetSnarkField(tedwards.BLS12_377)
     for i := 0; i<N; i++ {
-	    privateKeys[i], err = eddsaCrypto.New(tedwards.BN254, randomness)
+	    privateKeys[i], err = eddsaCrypto.New(tedwards.BLS12_377, randomness)
 	    if err != nil {
 		return
 	    }
@@ -126,8 +126,8 @@ func runtrial(N int) {
     */
 
     var circuit eddsaCircuit = initCircuit(N)
-    circuit.curveID = tedwards.BN254
-    ccs, err := frontend.Compile(ecc.BN254.ScalarField(), scs.NewBuilder, &circuit)
+    circuit.curveID = tedwards.BLS12_377
+    ccs, err := frontend.Compile(ecc.BLS12_377.ScalarField(), scs.NewBuilder, &circuit)
     //_r1cs, err := frontend.Compile(ecc.BN254.ScalarField(), r1cs.NewBuilder, &circuit)
     if err != nil {
 	    fmt.Println("error cannot be returned 1")
@@ -170,8 +170,8 @@ func runtrial(N int) {
     for i := 0; i < N; i++ {
 	    _publicKeys[i] = publicKeys[i].Bytes()
 	    _publicKeys[i] = _publicKeys[i][:32]
-    assignment.PublicKey[i].Assign(tedwards.BN254, _publicKeys[i])
-	    assignment.Signature[i].Assign(tedwards.BN254, signatures[i])
+    assignment.PublicKey[i].Assign(tedwards.BLS12_377, _publicKeys[i])
+	    assignment.Signature[i].Assign(tedwards.BLS12_377, signatures[i])
    }
 
     // assign public key values
@@ -181,11 +181,11 @@ func runtrial(N int) {
     //assignment.Signature.Assign(tedwards.BN254, signatures)
 
     // witness
-    witnessFull, err := frontend.NewWitness(&assignment, ecc.BN254.ScalarField())
+    witnessFull, err := frontend.NewWitness(&assignment, ecc.BLS12_377.ScalarField())
     if err != nil {
 	    log.Fatal(err)
     }
-    witnessPublic, err := frontend.NewWitness(&assignment, ecc.BN254.ScalarField(), frontend.PublicOnly())
+    witnessPublic, err := frontend.NewWitness(&assignment, ecc.BLS12_377.ScalarField(), frontend.PublicOnly())
     //publicWitness, err := witness.Public()
     fmt.Println("Here2!")
 
