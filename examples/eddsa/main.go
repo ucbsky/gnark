@@ -64,7 +64,7 @@ func (circuit *eddsaCircuit) Define(api frontend.API) error {
 
 func runtrial(N int) {
     // instantiate hash function
-    hFunc := hash.MIMC_BN254.New()
+    hFunc := hash.MIMC_BLS12_377.New()
 
     seed := time.Now().Unix()
     randomness := rand.New(rand.NewSource(seed))
@@ -76,9 +76,9 @@ func runtrial(N int) {
     var msgs []big.Int = make([]big.Int, N);
     var signatures [][]byte = make([][]byte, N);
     var err error
-    snarkField, err := twistededwards.GetSnarkField(tedwards.BN254)
+    snarkField, err := twistededwards.GetSnarkField(tedwards.BLS12_377)
     for i := 0; i<N; i++ {
-	    privateKeys[i], err = eddsaCrypto.New(tedwards.BN254, randomness)
+	    privateKeys[i], err = eddsaCrypto.New(tedwards.BLS12_377, randomness)
 	    if err != nil {
 		return
 	    }
@@ -123,8 +123,8 @@ func runtrial(N int) {
     */
 
     var circuit eddsaCircuit = initCircuit(N)
-    circuit.curveID = tedwards.BN254
-    _r1cs, err := frontend.Compile(ecc.BN254.ScalarField(), r1cs.NewBuilder, &circuit)
+    circuit.curveID = tedwards.BLS12_377
+    _r1cs, err := frontend.Compile(ecc.BLS12_377.ScalarField(), r1cs.NewBuilder, &circuit)
     if err != nil {
 	    fmt.Println("error cannot be returned 1")
 	   // return err[0]
@@ -133,7 +133,7 @@ func runtrial(N int) {
     var buf bytes.Buffer
     _, _ = _r1cs.WriteTo(&buf)
 
-    newR1CS := groth16.NewCS(ecc.BN254)
+    newR1CS := groth16.NewCS(ecc.BLS12_377)
     _, _ = newR1CS.ReadFrom(&buf)
 
     pk, vk, err := groth16.Setup(_r1cs)
@@ -161,8 +161,8 @@ func runtrial(N int) {
     for i := 0; i < N; i++ {
 	    _publicKeys[i] = publicKeys[i].Bytes()
 	    _publicKeys[i] = _publicKeys[i][:32]
-	    assignment.PublicKey[i].Assign(tedwards.BN254, _publicKeys[i])
-	    assignment.Signature[i].Assign(tedwards.BN254, signatures[i])
+	    assignment.PublicKey[i].Assign(tedwards.BLS12_377, _publicKeys[i])
+	    assignment.Signature[i].Assign(tedwards.BLS12_377, signatures[i])
     }
 
     // assign public key values
@@ -172,7 +172,7 @@ func runtrial(N int) {
     //assignment.Signature.Assign(tedwards.BN254, signatures)
 
     // witness
-    witness, err := frontend.NewWitness(&assignment, ecc.BN254.ScalarField(), frontend.PublicOnly())
+    witness, err := frontend.NewWitness(&assignment, ecc.BLS12_377.ScalarField(), frontend.PublicOnly())
     publicWitness, err := witness.Public()
     fmt.Println("Here2!")
 
